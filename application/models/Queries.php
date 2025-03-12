@@ -609,6 +609,25 @@ public function get_allcutomer($comp_id){
        	   return $loan->result();
        }
 
+	   public function get_DisbarsedBlanch_data($blanch_id) {
+		$loan = $this->db->query("
+			SELECT l.*, c.*, lt.*, b.*, s.*, e.* 
+			FROM tbl_loans l 
+			LEFT JOIN tbl_customer c ON c.customer_id = l.customer_id 
+			LEFT JOIN tbl_loan_category lt ON lt.category_id = l.category_id 
+			LEFT JOIN tbl_blanch b ON b.blanch_id = l.blanch_id 
+			LEFT JOIN tbl_sub_customer s ON s.customer_id = l.customer_id
+			LEFT JOIN tbl_employee e ON e.empl_id = l.empl_id  -- Joining tbl_employee
+			WHERE l.blanch_id = '$blanch_id' 
+			AND l.loan_status = 'disbarsed' 
+			ORDER BY l.loan_id DESC 
+			LIMIT 1
+		");  // LIMIT 1 to return only one record
+		
+		return $loan->row(); // Return a single object instead of an array
+	}
+	
+	
 
 
 
@@ -5357,6 +5376,18 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
  	return $data->result();
  }
 
+ public function get_guarantor_data($customer_id) {
+    // Query to get only the latest data based on 'created_at' or other relevant field
+    $data = $this->db->query("
+        SELECT * FROM tbl_sponser 
+        WHERE customer_id = '$customer_id' 
+        ORDER BY created_at DESC 
+        LIMIT 1
+    ");
+    return $data->row(); // Use 'row()' to return a single record instead of 'result()'
+}
+
+
   public function get_borrowe_alert($customer_id){
  	$data = $this->db->query("SELECT COUNT(customer_id) AS total_loan FROM tbl_loans WHERE customer_id = '$customer_id'");
  	return $data->row();
@@ -5547,6 +5578,20 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
 	");
 	return $sponser->row(); // Inarudisha rekodi moja pekee
 }
+
+public function get_guarator_blanch($customer_id) {
+    $sponser = $this->db->query("
+        SELECT s.*, c.f_name, c.m_name, c.l_name, c.phone_no, c.customer_code, l.blanch_id 
+        FROM tbl_sponser s 
+        LEFT JOIN tbl_customer c ON c.customer_id = s.customer_id 
+        LEFT JOIN tbl_loans l ON l.customer_id = s.customer_id 
+        WHERE s.customer_id = '$customer_id' 
+        ORDER BY s.created_at DESC 
+        LIMIT 1
+    ");
+    return $sponser->row(); // Returns a single record
+}
+
 
  public function get_account_transfor($blanch_id){
  	$today = date("Y-m-d");

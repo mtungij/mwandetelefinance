@@ -298,44 +298,47 @@ class Admin extends CI_Controller {
 
 
     public function update_comp_logo($comp_id){
-	if(!empty($_FILES['comp_logo']['name'])){
-                $config['upload_path'] = 'assets/img/';
-                $config['allowed_types'] = 'jpg|jpeg|png|gif|pdf';
-                $config['file_name'] = $_FILES['comp_logo']['name'];
-                    //die($config);
-                //Load upload library and initialize configuration
-                $this->load->library('upload',$config);
-                $this->upload->initialize($config);
-                
-                if($this->upload->do_upload('comp_logo')){
-                    $uploadData = $this->upload->data();
-                    $comp_logo = $uploadData['file_name'];
-                }else{
-                    $comp_logo = '';
-                }
-            }else{
-                $comp_logo = '';
-            }
-            
-            //Prepare array of user data
-            $data = array(
-            'comp_logo' => $comp_logo,
-            );
-            //   echo "<pre>";
-            // print_r($data);
-            //  echo "</pre>";
-            //   exit();
-
-           $this->load->model('queries'); 
-           $data = $this->queries->update_company_Data($data,$comp_id);
-            //Storing insertion status message.
-            if($data){
-            	$this->session->set_flashdata('massage','Company Logo Updated successfully');
-               }else{
-                $this->session->set_flashdata('error','Data failed!!');
-            }
-            return redirect('admin/setting/');	
-	}
+      if(!empty($_FILES['comp_logo']['name'])){
+          $config['upload_path'] = 'assets/img/';
+          $config['allowed_types'] = 'jpg|jpeg|png|gif';  // Limiting to image files
+          $config['file_name'] = $_FILES['comp_logo']['name'];
+  
+          // Load upload library and initialize configuration
+          $this->load->library('upload', $config);
+          $this->upload->initialize($config);
+  
+          if($this->upload->do_upload('comp_logo')){
+              $uploadData = $this->upload->data();
+              $comp_logo = $uploadData['file_name'];
+          } else {
+              $comp_logo = '';
+              $error = $this->upload->display_errors();
+              log_message('error', 'File upload failed: ' . $error);  // Log error
+          }
+      } else {
+          $comp_logo = '';  // No file uploaded, keep the existing logo
+      }
+  
+      // Prepare array of company data
+      $data = array(
+          'comp_logo' => $comp_logo,
+      );
+  
+      // Load the queries model
+      $this->load->model('queries');
+      $updateStatus = $this->queries->update_company_Data($data, $comp_id);
+  
+      // Storing insertion status message
+      if($updateStatus){
+          $this->session->set_flashdata('massage', 'Company Logo Updated successfully');
+      } else {
+          $this->session->set_flashdata('error', 'Data update failed!');
+      }
+  
+      // Redirect back to the settings page
+      return redirect('admin/setting/');
+  }
+  
 
 
 	public function change_password_oficer(){
@@ -10169,7 +10172,7 @@ public function sendsms($phone,$massage){
 	//public function sendsms(){f
 	//$phone = '255628323760';
 	//$massage = 'mapenzi yanauwa';
-	$api_key = 'OQkRlUVz1lXZwm7Z';
+	$api_key = 'I6n4DOWpaPmRsNSL';
 	//$api_key = 'qFzd89PXu1e/DuwbwxOE5uUBn6';
 	//$curl = curl_init();
   $ch = curl_init();

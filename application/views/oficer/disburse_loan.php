@@ -46,7 +46,7 @@
                                         <th><?php echo $this->lang->line("number_repayment_menu"); ?></th>
                                         <th><?php echo $this->lang->line("restoration_menu"); ?></th>
                                         <th><?php echo $this->lang->line("date_menu"); ?></th>
-                                        <!-- <th>Action</th> -->
+                                        <th>Action</th>
                                         </tr>
                                     </thead>
                                    
@@ -81,8 +81,13 @@
                                         <td>
                                 <?php echo substr($loan_aproveds->loan_day, 0,10); ?> 
                                 </td> 
-
-                                <!-- <td><a href="<?php //echo base_url("admin/delete_loanDisbursed/{$loan_aproveds->loan_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default button-remove"
+ 
+                                <td>
+    <a href="<?php echo base_url("oficer/view_aggrement/{$dis->customer_id}/{$dis->loan_id}"); ?>">
+        <button type="button" class="btn btn-primary">Print PDF</button>
+    </a>
+</td>
+                          <!-- <td><a href="<?php //echo base_url("admin/delete_loanDisbursed/{$loan_aproveds->loan_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default button-remove"
                                             data-toggle="tooltip" data-original-title="Remove" onclick="return confirm('Are You Sure?')"><i class="icon-trash" aria-hidden="true"></i></a></td>  -->          
                                  </tr>
                             <?php endforeach; ?>
@@ -98,7 +103,8 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <!-- <td></td> -->
+    
+
                                 </tr>
                                     </tbody>
                                 </table>
