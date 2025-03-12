@@ -5537,7 +5537,16 @@ public function check_empl_privillage($position_id,$empl_id,$comp_id){
  	$data = $this->db->query("SELECT * FROM  tbl_deduction WHERE blanch_id = '$blanch_id' AND date = '$today'");
  	return $data->row();
  }
-
+ public function get_guarator_data($customer_id, $comp_id) {
+	$sponser = $this->db->query("
+		SELECT * FROM tbl_sponser 
+		WHERE customer_id = '$customer_id' 
+		AND comp_id = '$comp_id' 
+		ORDER BY created_at DESC 
+		LIMIT 1
+	");
+	return $sponser->row(); // Inarudisha rekodi moja pekee
+}
 
  public function get_account_transfor($blanch_id){
  	$today = date("Y-m-d");
