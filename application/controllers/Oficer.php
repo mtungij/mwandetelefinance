@@ -1992,15 +1992,17 @@ public function modify_sponser($sp_id,$customer_id){
   {
     $this->load->model('queries');
     $blanch_id = $this->session->userdata('blanch_id');
-    $comp_id=100;
     $empl_id = $this->session->userdata('empl_id');
+    $manager_data = $this->queries->get_manager_data($empl_id);
+     $comp_id = $manager_data->comp_id;
+   
     $disbuse = $this->queries->get_DisbarsedLoanBlanch_data($blanch_id); 
     $compdata = $this->queries->get_companyData($comp_id);
     $customer=$this->queries->get_DisbarsedBlanch_data($blanch_id);
     $mdhamini=$this->queries->get_guarantor_data($customer_id);
 
     // echo "<pre>";
-    //         print_r( $compdata);
+    //         print_r(  $customer);
     //         echo "</pre>";
     //             exit();
 

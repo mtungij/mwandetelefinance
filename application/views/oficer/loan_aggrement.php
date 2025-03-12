@@ -31,7 +31,7 @@
             <p>Mkataba huu umefanyika leo tarehe <strong>…………</strong> mwezi <strong>……...</strong> mwaka <strong>20……</strong></p>
             <p>Kati ya <b><?= strtoupper($compdata->comp_name) ?></b> wa <b><?= $compdata->adress ?></b>, kampuni iliyosajiliwa Tanzania (Ambaye katika Mkataba huu utajulikana kama <b>Mkopeshaji </b> ) </b> Na <b><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>)
             ambaye ni mkazi wa wilaya <b><?= $customer->district ?> </b> kata ya <b><?= $customer->ward ?></b> mtaa wa <b><?= $customer->street ?> </b>
-            Simu: <?= $customer->phone_no; ?>   Na kwamba Mkopeshwaji anakubaliana na uwajibikaji wa majukumu yote yalipo kwenye mkataba huu na anathibitisha kudaiwa na <b><?= strtoupper($compdata->comp_name) ?></b> kiasi cha tsh <b><?= number_format($customer->how_loan);?></b>.</p>
+            Simu: <?= $customer->phone_no; ?>   Na kwamba Mkopeshwaji anakubaliana na uwajibikaji wa majukumu yote yalipo kwenye mkataba huu na anathibitisha kudaiwa na <b><?= strtoupper($compdata->comp_name) ?></b> kiasi cha tsh <b><?= number_format($customer->loan_int);?></b>.</p>
             <br>
             <b>HIVYO MKATABA HUU UNASHUHUDIWA NA MAKUBALIANO YAFUATAYO</b>
             <p>(1)Kwamba Mkopeshwaji kwa hiari yake mwenyewe ameweka  dhamana ya kitu ama vitu vyenye thamani kama sehemu ya ukiri wake wa kuwa
@@ -67,7 +67,7 @@ if ($customer->day == 1) {
 }
 ?>
 
- <p>(5) Mkopaji na Mkopeshwaji wanakubaliana na majukumu yote yaliyomo kwenye mkataba huu na wanakiri mkopaji  kudaiwa na <b><?= $compdata->comp_name ?></b>  kiasi cha Tsh <b><?= number_format($customer->how_loan); ?></b> Na kwamba mkopo huu umeombwa kupitia biashara ya <b><?= $customer->reason ?></b>  </p>
+ <p>(5) Mkopaji na Mkopeshwaji wanakubaliana na majukumu yote yaliyomo kwenye mkataba huu na wanakiri mkopaji  kudaiwa na <b><?= $compdata->comp_name ?></b>  kiasi cha Tsh <b><?= number_format($customer->loan_int); ?></b> Na kwamba mkopo huu umeombwa kupitia biashara ya <b><?= $customer->reason ?></b>  </p>
 
  (6)Kwamba wahusika wote wa mkataba huu wamekubaliana kuwa mkopaji atapaswa kuwa na mdhamini/wadhamini wake kama mkopaji namba mbili na ambaye atakuwa na jukumu la kuhakikisha mkopaji namba moja analipa mkopo kwa wakati
  na endapo atashindwa kulipa kwa uzembe basi yeye atakuwa na jukumu la kulipa mkopo huo uliobaki wote haraka.
