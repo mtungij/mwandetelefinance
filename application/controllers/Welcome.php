@@ -309,10 +309,10 @@ class Welcome extends CI_Controller {
       $data = $this->db->query("SELECT * FROM tbl_loans WHERE loan_status = 'withdrawal'");
       $all_loans = $data->result();
         foreach($all_loans as $loan){
-        	  //  echo "<br>";
-        	  //  echo $loan->loan_id;
-        	  //   echo "<br>";
-        	  // exit();
+        	   echo "<br>";
+        	   echo $loan->loan_id;
+        	    echo "<br>";
+        	  exit();
       $this->withdraw_automatic_loan($loan->loan_id);
         }
 
@@ -323,6 +323,10 @@ class Welcome extends CI_Controller {
       	ini_set("max_execution_time", 3600);
       	$this->load->model('queries');
       	$loan_data = $this->queries->get_loan_LoandataAutomatic($loan_id);
+		// echo "<pre>";
+		//   print_r($loan_data);
+		//   echo "<pre>";
+      	//          exit();
          if (!empty($loan_data)) {
       	  $loan_id = $loan_data->loan_id;
       	  $comp_id = $loan_data->comp_id;
@@ -389,13 +393,15 @@ class Welcome extends CI_Controller {
       	  @$loans = $this->queries->get_sum_depostLoan($loan_id);
       	  $depost_data = @$loans->depos;
       	  $rem = $totalloan - $depost_data;
-      	    //   print_r($depost_data);
-      	    //    exit();
+      	  
       	  //loan penart by samwel
       	   $penart_data = $loan_data->penat_status;
       	   $penart_status = $penart_data;
       	   $action_penart = $loan_data->action_penart;
-      	   $action = $action_penart;
+			
+      	//    $action = $action_penart;
+		// 	 print_r($action);
+		// 	 exit();
       	   $penart_value = $loan_data->penart;
       	   $money_value = $penart_value;
       	   $restoration_loan = $loan_data->restration;
