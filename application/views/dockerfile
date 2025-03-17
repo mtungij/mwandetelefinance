@@ -1,5 +1,5 @@
 docker run -it -d \
-  --label traefik.http.routers.mwandetelefinance.rule=Host\(\`mwandetelefinance.phamasoft.com\`\) \
+  --label traefik.http.routers.mwandetelefinance.rule=Host\(\`mwandetelefinance.loan-pocket.com\`\) \
   --label traefik.http.routers.mwandetelefinance.tls.certresolver=lets-encrypt \
   --label traefik.http.routers.mwandetelefinance.tls=true \
   --label traefik.http.routers.mwandetelefinance.service=mwandetelefinance-credit-http \

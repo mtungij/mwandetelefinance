@@ -83,8 +83,8 @@
                                 </td> 
  
                                 <td>
-    <a href="<?php echo base_url("oficer/view_aggrement/{$dis->customer_id}/{$dis->loan_id}"); ?>">
-        <button type="button" class="btn btn-primary">Print PDF</button>
+    <a href="<?php echo base_url("oficer/view_aggrement/{$loan_aproveds->customer_id}/{$loan_aproveds->loan_id}"); ?>">
+        <button type="button" class="btn btn-primary">Mkataba</button>
     </a>
 </td>
                           <!-- <td><a href="<?php //echo base_url("admin/delete_loanDisbursed/{$loan_aproveds->loan_id}") ?>" class="btn btn-sm btn-icon btn-pure btn-danger on-default button-remove"

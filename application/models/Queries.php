@@ -325,6 +325,24 @@ public function get_allcutomer($comp_id){
 		   return $customer->row();
 	}
 
+	public function get_customer_profile($customer_id) {
+		$customer = $this->db->query("
+			SELECT *
+			FROM tbl_customer c
+			LEFT JOIN tbl_sub_customer sb ON sb.customer_id = c.customer_id
+			LEFT JOIN tbl_region r ON r.region_id = c.region_id
+			LEFT JOIN tbl_blanch b ON b.blanch_id = c.blanch_id
+			LEFT JOIN tbl_account_type ac ON ac.account_id = sb.account_id
+			LEFT JOIN tbl_employee e ON e.empl_id = c.empl_id
+			LEFT JOIN tbl_loans l ON l.customer_id = c.customer_id
+			LEFT JOIN tbl_collelateral col ON col.loan_id = l.loan_id
+			WHERE c.customer_id = '$customer_id'
+		");
+	
+		return $customer->row();
+	}
+	
+
 	public function update_customer_info($data,$customer_id){
 		return $this->db->where('customer_id',$customer_id)->update('tbl_customer',$data);
 	}
@@ -1683,6 +1701,8 @@ public function get_colateral_data($loan_id){
 	$data = $this->db->query("SELECT * FROM tbl_collelateral WHERE loan_id = '$loan_id'");
 	  return $data->result();
 }
+
+
 
 
 public function update_collateral($data,$col_id){

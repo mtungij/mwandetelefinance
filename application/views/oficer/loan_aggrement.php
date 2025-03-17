@@ -18,20 +18,20 @@
     <div class="header">
 
     
-    <img src="<?=  $customer->passport; ?>" alt="Passport Image" class="passport">
+    <img src="<?=  $customer_profile->passport; ?>" alt="Passport Image" class="passport">
     
 
-        <div class="logo">
-            <img src="<?= $compdata->comp_logo ?>" alt="Company Logo" width="150">
-        </div>
+        <!-- <div class="logo">
+            <img src="</?= $company_data->comp_logo ?>" alt="Company Logo" width="150">
+        </div> -->
     </div>
     <h2>FOMU YA MAOMBI YA MKOPO</h2>   
     
     <div class="section">
-            <p>Mkataba huu umefanyika leo tarehe <strong>…………</strong> mwezi <strong>……...</strong> mwaka <strong>20……</strong></p>
-            <p>Kati ya <b><?= strtoupper($compdata->comp_name) ?></b> wa <b><?= $compdata->adress ?></b>, kampuni iliyosajiliwa Tanzania (Ambaye katika Mkataba huu utajulikana kama <b>Mkopeshaji </b> ) </b> Na <b><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>)
-            ambaye ni mkazi wa wilaya <b><?= $customer->district ?> </b> kata ya <b><?= $customer->ward ?></b> mtaa wa <b><?= $customer->street ?> </b>
-            Simu: <?= $customer->phone_no; ?>   Na kwamba Mkopeshwaji anakubaliana na uwajibikaji wa majukumu yote yalipo kwenye mkataba huu na anathibitisha kudaiwa na <b><?= strtoupper($compdata->comp_name) ?></b> kiasi cha tsh <b><?= number_format($customer->loan_int);?></b>.</p>
+    <p>Mkataba huu umefanyika leo tarehe <strong><?php echo date('d'); ?></strong> mwezi <strong><?php echo date('F'); ?></strong> mwaka <strong><?php echo date('Y'); ?></strong></p>
+            <p>Kati ya <b><?= strtoupper($company_data->comp_name) ?></b> wa <b><?=$company_data ->adress ?></b>, kampuni iliyosajiliwa Tanzania (Ambaye katika Mkataba huu utajulikana kama <b>Mkopeshaji </b> ) </b> Na <b><?= strtoupper($customer_profile->f_name) . " " . strtoupper($customer_profile->m_name) . " " . strtoupper($customer_profile->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>)
+            ambaye ni mkazi wa wilaya <b><?= $customer_profile->district ?> </b> kata ya <b><?= $customer_profile->ward ?></b> mtaa wa <b><?= $customer_profile->street ?> </b>
+            Simu: <?= $customer_profile->phone_no; ?>   Na kwamba Mkopeshwaji anakubaliana na uwajibikaji wa majukumu yote yalipo kwenye mkataba huu na anathibitisha kudaiwa na <b><?= strtoupper($company_data->comp_name) ?></b> kiasi cha tsh <b><?= number_format($customer_profile->loan_int);?></b>.</p>
             <br>
             <b>HIVYO MKATABA HUU UNASHUHUDIWA NA MAKUBALIANO YAFUATAYO</b>
             <p>(1)Kwamba Mkopeshwaji kwa hiari yake mwenyewe ameweka  dhamana ya kitu ama vitu vyenye thamani kama sehemu ya ukiri wake wa kuwa
@@ -41,10 +41,9 @@
         <br>
         <b>ORODHA YA DHAMANA</b>
 <p>
-    <?php if (!empty($collateral)): ?>
-        <?php foreach ($collateral as $key => $collater): ?> 
-            (<?= $key + 1; ?>) <b><?= $collater->description; ?></b> <br>
-        <?php endforeach; ?>
+    <?php if (!empty($customer_profile)): ?>
+            <?= "."?> <b><?= $customer_profile->description; ?></b> <br>
+        
     <?php else: ?>
         <i>Hazijajazwa kwenye mfumo</i>
     <?php endif; ?>
@@ -56,41 +55,55 @@
        <p>(3)Na Kwamba wahusika kwa mkataba huu wote kwa pamoja wamekubaliana  kuwa mkopo huu utakuwa adhabu (Faini) ama kuvunjiwa mkataba ikiwa mkopaji ataenda kinyume na mkataba huu</p> 
         <br>
         (4) Kwamba mkataba huu unahusisha mkopo wa MAREJESHO YA KILA  <?php
-if ($customer->day == 1) {
-    echo "<strong>SIKU (" . $customer->session . ")</strong>";
-} elseif ($customer->day == 7) {
-    echo "<strong>WIKI (" . $customer->session . ")</strong>";
-} elseif ($customer->day == 30) {  
-    echo "<strong>MWEZI (" . $customer->session . ")</strong>";
+if ($customer_profile->day == 1) {
+    echo "<strong>SIKU (" . $customer_profile->session . ")</strong>";
+} elseif ($customer_profile->day == 7) {
+    echo "<strong>WIKI (" . $customer_profile->session . ")</strong>";
+} elseif ($customer_profile->day == 30) {  
+    echo "<strong>MWEZI (" . $customer_profile->session . ")</strong>";
 } else {
-    echo "<strong>haijulikani (" . $customer->session . ")</strong>";
+    echo "<strong>haijulikani (" . $customer_profile->session . ")</strong>";
 }
 ?>
 
- <p>(5) Mkopaji na Mkopeshwaji wanakubaliana na majukumu yote yaliyomo kwenye mkataba huu na wanakiri mkopaji  kudaiwa na <b><?= $compdata->comp_name ?></b>  kiasi cha Tsh <b><?= number_format($customer->loan_int); ?></b> Na kwamba mkopo huu umeombwa kupitia biashara ya <b><?= $customer->reason ?></b>  </p>
+ <p>(5) Mkopaji na Mkopeshwaji wanakubaliana na majukumu yote yaliyomo kwenye mkataba huu na wanakiri mkopaji  kudaiwa na <b><?= $company_data->comp_name ?></b>  kiasi cha Tsh <b><?= number_format($customer_profile->loan_int); ?></b> Na kwamba mkopo huu umeombwa kupitia biashara ya <b><?= $customer_profile->reason ?></b>  </p>
 
  (6)Kwamba wahusika wote wa mkataba huu wamekubaliana kuwa mkopaji atapaswa kuwa na mdhamini/wadhamini wake kama mkopaji namba mbili na ambaye atakuwa na jukumu la kuhakikisha mkopaji namba moja analipa mkopo kwa wakati
  na endapo atashindwa kulipa kwa uzembe basi yeye atakuwa na jukumu la kulipa mkopo huo uliobaki wote haraka.
 
 <br>
 <br>
- <b>SEHEMU YA MDHAMINI</b>
- <br>
- <br>
- <?php if (!empty($mdhamini)) : ?>
+<b>SEHEMU YA MDHAMINI</b>
+<br><br>
+<?php if (!empty($mdhamini)) : ?>
+    <?php $sponsor_count = 0; ?>
+    <?php foreach ($mdhamini as $sponsor) : ?>
+        <?php $sponsor_count++; ?>
+        
+        <?php if ($sponsor_count == 1) : ?>
+            <p>
+                Mimi <b><?= strtoupper($sponsor->sp_name ." ". $sponsor->sp_mname ." ". $sponsor->sp_lname )?></b>
+                simu <b><?= $sponsor->sp_phone_no ?></b>
+                uhusiano wangu na mkopaji <b>Na</b> <b><?= strtoupper($customer_profile->f_name) . " " . strtoupper($customer_profile->m_name) . " " . strtoupper($customer_profile->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) ni <b><?= $sponsor->sp_relation?></b>
+                kwa hiari yangu mwenyewe na nikiwa na akili timamu bila kushurutishwa na mtu yeyote nakubali kumdhamini Bw/Bi <strong><?= strtoupper($customer_profile->f_name) . " " . strtoupper($customer_profile->m_name) . " " . strtoupper($customer_profile->l_name) ?></strong> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>)
+                na ya kwamba nitakuwa tayari kwa lolote litakojitokeza endapo niliyemdhamini ataenda kinyume na moja kati ya vigezo na masharti ya mkataba huu. Nipo tayari kumlipia endapo atashindwa kurejesha.
+            </p>
+            <b>SAINI YA MDHAMINI</b> ................................   <b>DOLE GUMBA</b> .......................
+        <?php else : ?>
+            <p>
+                Na <b><?= strtoupper($sponsor->sp_name ." ". $sponsor->sp_mname ." ". $sponsor->sp_lname )?></b>
+                simu <b><?= $sponsor->sp_phone_no ?></b>
+                uhusiano wangu na mkopaji <b>Na</b> <b><?= strtoupper($customer_profile->f_name) . " " . strtoupper($customer_profile->m_name) . " " . strtoupper($customer_profile->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) ni <b><?= $sponsor->sp_relation?></b>
+                kwa hiari yangu mwenyewe na nikiwa na akili timamu bila kushurutishwa na mtu yeyote nakubali kumdhamini Bw/Bi <strong><?= strtoupper($customer_profile->f_name) . " " . strtoupper($customer_profile->m_name) . " " . strtoupper($customer_profile->l_name) ?></strong> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>)
+                na ya kwamba nitakuwa tayari kwa lolote litakojitokeza endapo niliyemdhamini ataenda kinyume na moja kati ya vigezo na masharti ya mkataba huu. Nipo tayari kumlipia endapo atashindwa kurejesha.
+            </p>
+            <b>SAINI YA MDHAMINI</b> ................................   <b>DOLE GUMBA</b> .......................
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php else : ?>
+    <p>taaridha za mdhamini hazijajazwa kwenye mfumo.</p>
+<?php endif; ?>
 
- Mimi <b><?= strtoupper($mdhamini->sp_name ." ". $mdhamini->sp_mname ." ". $mdhamini->sp_lname )?></b> simu <b><?= $mdhamini->sp_phone_no ?></b>
- uhusiano wangu na mkopaji </b> Na <b><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) ni <b><?= $mdhamini->sp_relation?></b>
-  kwa hiari yangu  mwenyewe na nikiwa na akili timamu bila kushurutishwa na mtu yeyote nakubali kumdhamini  Bw/Bi </strong> Na <strong><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></strong> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>)
- na ya kwamba nitakuwa tayari kwa lolote litakojitokeza endapo niliyemdhamini ataenda kinyume na moja  kati ya vigezo na masharti ya mkataba huu.Nipo tayari kumlipia endapo atashindwa kurejesha.
- <br>
- <b>SAINI YA MDHAMINI</b> ................................   <b>DOLE GUMBA<b> .......................
-
- <?php else : ?>
-        <p>taaridha za mdhamini hazijajazwa kwenye mfumo.</p>
-    <?php endif; ?>
-
-</p> 
 
 
             
@@ -100,16 +113,16 @@ if ($customer->day == 1) {
 
    
         <h3>SAHIHI YA MKOPAJI</h3>
-        <p>JINA: <strong><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></strong></p>
-        <p>SAHIHI: ________________________ SIMU:<?= $customer->phone_no; ?></p>
+        <p>JINA: <strong><?= strtoupper($customer_profile->f_name) . " " . strtoupper($customer_profile->m_name) . " " . strtoupper($customer_profile->l_name) ?></strong></p>
+        <p>SAHIHI: ________________________ SIMU:<?= $customer_profile->phone_no; ?></p>
     
     
     
     <div class="signature">
         <h3>AFISA WA KAMPUNI</h3>
-        <p>JINA: <b><?= $customer->empl_name ;?></b></p>
-        <p>Simu:  <b><?= $customer->empl_no ;?></b></p>
-        <p>Office:  <b><?= $customer->blanch_name ;?></b></p>
+        <p>JINA: <b><?= $customer_profile->empl_name ;?></b></p>
+        <p>Simu:  <b><?= $customer_profile->empl_no ;?></b></p>
+        <p>Office:  <b><?= $customer_profile->blanch_name ;?></b></p>
         <p>wadhifa: ________________________ 
         <p>SAHIHI: ________________________ 
     </div>
