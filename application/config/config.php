@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // $config['base_url'] = 'http://localhost:8079/'; 
-$config['base_url'] = 'http://mwandetelefinance.phamasoft.com/'; 
+$config['base_url'] = 'https://mwandetelefinance.phamasoft.com/'; 
 /*
 |--------------------------------------------------------------------------
 | Index File
