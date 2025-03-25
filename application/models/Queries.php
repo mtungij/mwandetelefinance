@@ -5848,6 +5848,12 @@ return $query->result_array();
  	return $data->result();
  }
 
+ public function get_default_loan_company($comp_id){
+	
+   $data = $this->db->query("SELECT * FROM tbl_outstand_loan ol LEFT JOIN tbl_loans l ON l.loan_id = ol.loan_id LEFT JOIN tbl_customer c ON c.customer_id = ol.customer_id LEFT JOIN tbl_employee e ON e.empl_id = l.empl_id LEFT JOIN tbl_outstand ot ON ot.loan_id = ol.loan_id LEFT JOIN tbl_loan_category lc ON lc.category_id = l.category_id LEFT JOIN tbl_account_transaction at ON at.trans_id = l.method LEFT JOIN tbl_blanch b ON b.blanch_id = ol.blanch_id WHERE ol.comp_id = '$comp_id' AND ol.out_status = 'open' ");
+   return $data->result();
+}
+
 
  public function filter_loan_default($blanch_id,$from,$to){
  	$data = $this->db->query("SELECT * FROM tbl_outstand_loan ol LEFT JOIN tbl_loans l ON l.loan_id = ol.loan_id LEFT JOIN tbl_customer c ON c.customer_id = ol.customer_id LEFT JOIN tbl_employee e ON e.empl_id = l.empl_id LEFT JOIN tbl_outstand ot ON ot.loan_id = ol.loan_id LEFT JOIN tbl_loan_category lc ON lc.category_id = l.category_id LEFT JOIN tbl_account_transaction at ON at.trans_id = l.method LEFT JOIN tbl_blanch b ON b.blanch_id = ol.blanch_id WHERE ol.blanch_id = '$blanch_id' AND ol.out_status = 'open' AND ol.outstand_date between '$from' and '$to'");

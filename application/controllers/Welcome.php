@@ -305,7 +305,7 @@ class Welcome extends CI_Controller {
 		   
 		   
 		   $comp_id = 165;
-		   $defaulters = $this->queries->get_outstand_loan_company($comp_id);
+		   $defaulters = $this->queries->get_default_loan_company($comp_id);
 		  echo "<pre>";
 		  print_r($defaulters);
 		  exit();
