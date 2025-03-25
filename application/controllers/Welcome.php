@@ -299,6 +299,65 @@ class Welcome extends CI_Controller {
        	 }
        }
 
+	   public function send_default_sms()
+	   {
+		   $this->load->model('queries');
+		   
+		   
+		   $comp_id = $this->session->userdata('comp_id');
+		   $defaulters = $this->queries->get_outstand_loan_company($comp_id);
+		  
+	   
+		   if (!empty($defaulters)) {
+			   foreach ($defaulters as $defaulter) {
+				   $full_name = trim("{$defaulter->f_name} {$defaulter->m_name} {$defaulter->l_name}");
+				   $amount_due = number_format($defaulter->remain_amount, 0, '.', ','); // Format amount
+				   $due_date = date('d-m-Y', strtotime($defaulter->return_date)); // Format date
+				   $phone = $defaulter->phone_no;
+				   
+				   // Message for contract breach (urgent payment request)
+				   $massage = "Ndugu {$full_name}, unatakiwa kulipa deni lako la TZS {$amount_due} MARA MOJA! Mkataba wako ulishapitiliza na endapo hautalipa haraka, hatua zaidi zitachukuliwa dhidi yako. Epuka madhara, lipa sasa!";
+	   
+				   $this->sendsms($phone,$massage);
+				   
+			   }
+		   }
+	   }
+	   public function send_onyo_sms()
+	   {
+		   $this->load->model('queries');
+		   
+		   $comp_id = $this->session->userdata('comp_id');
+		   $defaulters = $this->queries->get_outstand_loan_company($comp_id);
+		   $compdata = $this->queries->get_companyData($comp_id);
+	   
+		   // Angalia kama data ya kampuni ipo
+		   $comp_name = !empty($compdata) ? $compdata->comp_name : "Kampuni yako";
+	   
+		   if (!empty($defaulters)) {
+			   foreach ($defaulters as $defaulter) {
+				   $full_name = trim("{$defaulter->f_name} {$defaulter->m_name} {$defaulter->l_name}");
+				   $amount_due = number_format($defaulter->remain_amount, 0, '.', ','); 
+				   $phone = $defaulter->phone_no;
+				   $loan_end_date = strtotime($defaulter->loan_end_date); 
+				   $today = strtotime(date('Y-m-d')); 
+				   
+				   // Hesabu tofauti ya siku
+				   $days_passed = ($today - $loan_end_date) / (60 * 60 * 24);
+				   
+				   // Tuma SMS ikiwa imepita siku 10 au zaidi
+				   if ($days_passed >= 10) {
+					   $massage = "ONYO LA MWISHO! {$full_name}, deni lako la TZS {$amount_due} halijalipwa na mkataba wako ulishapitiliza muda. Kampuni {$comp_name} itaanza kuchukua hatua zaidi, Lipa sasa kuepuka matatizo makubwa!";
+					   
+					   // Kutuma SMS
+					   $this->sendsms($phone, $massage);
+				   }
+			   }
+		   }
+	   }
+	   
+	   
+
 
 
 
