@@ -304,9 +304,11 @@ class Welcome extends CI_Controller {
 		   $this->load->model('queries');
 		   
 		   
-		   $comp_id = $this->session->userdata('comp_id');
+		   $comp_id = 165;
 		   $defaulters = $this->queries->get_outstand_loan_company($comp_id);
-		  
+		  echo "<pre>";
+		  print_r($defaulters);
+		  exit();
 	   
 		   if (!empty($defaulters)) {
 			   foreach ($defaulters as $defaulter) {
