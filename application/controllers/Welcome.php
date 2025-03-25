@@ -306,9 +306,7 @@ class Welcome extends CI_Controller {
 		   
 		   $comp_id = 165;
 		   $defaulters = $this->queries->get_default_loan_company($comp_id);
-		  echo "<pre>";
-		  print_r($defaulters);
-		  exit();
+		  
 	   
 		   if (!empty($defaulters)) {
 			   foreach ($defaulters as $defaulter) {
@@ -330,7 +328,7 @@ class Welcome extends CI_Controller {
 		   $this->load->model('queries');
 		   
 		   $comp_id = 165;
-		   $defaulters = $this->queries->get_outstand_loan_company($comp_id);
+		   $defaulters = $this->queries->get_default_loan_company($comp_id);
 		   $compdata = $this->queries->get_companyData($comp_id);
 	   
 		   // Angalia kama data ya kampuni ipo
