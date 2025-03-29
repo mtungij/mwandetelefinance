@@ -40,7 +40,16 @@ class Queries extends CI_Model {
 		return $blanch->result();
 	}
 
-
+	public function get_guarator_data($customer_id, $comp_id) {
+		$sponser = $this->db->query("
+			SELECT * FROM tbl_sponser 
+			WHERE customer_id = '$customer_id' 
+			AND comp_id = '$comp_id' 
+			ORDER BY created_at DESC 
+			
+		");
+		return $sponser->result(); // Inarudisha rekodi moja pekee
+	}
 
 
 

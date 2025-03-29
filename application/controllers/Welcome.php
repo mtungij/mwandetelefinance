@@ -306,6 +306,10 @@ class Welcome extends CI_Controller {
 		   
 		   $comp_id = 165;
 		   $defaulters = $this->queries->get_default_loan_company($comp_id);
+		   $compdata = $this->queries->get_companyData($comp_id);
+	   
+		   // Angalia kama data ya kampuni ipo
+		   $comp_name = !empty($compdata) ? $compdata->comp_name : "Kampuni yako";
 		  
 	   
 		   if (!empty($defaulters)) {
@@ -316,7 +320,7 @@ class Welcome extends CI_Controller {
 				   $phone = $defaulter->phone_no;
 				   
 				   // Message for contract breach (urgent payment request)
-				   $massage = "Ndugu {$full_name}, unatakiwa kulipa deni lako la TZS {$amount_due} MARA MOJA! Mkataba wako ulishapitiliza na endapo hautalipa haraka, hatua zaidi zitachukuliwa dhidi yako. Epuka madhara, lipa sasa!";
+				   $massage = "Ndugu {$full_name}, unatakiwa kulipa deni lako la TZS {$amount_due} MARA MOJA!  endapo hautalipa haraka, hatua zaidi zitachukuliwa dhidi yako. Epuka madhara, lipa sasa!";
 	   
 				   $this->sendsms($phone,$massage);
 				   
@@ -347,7 +351,7 @@ class Welcome extends CI_Controller {
 				   
 				   // Tuma SMS ikiwa imepita siku 10 au zaidi
 				   if ($days_passed >= 10) {
-					   $massage = "ONYO LA MWISHO! {$full_name}, deni lako la TZS {$amount_due} halijalipwa na mkataba wako ulishapitiliza muda. Kampuni {$comp_name} itaanza kuchukua hatua zaidi, Lipa sasa kuepuka matatizo makubwa!";
+					   $massage = " {$full_name}, deni lako la TZS {$amount_due} halijalipwa mpaka sasa. {$comp_name} itaanza kukuchukua hatua zaidi, Lipa sasa kuepuka hatua zitakazochukuliwa makubwa!";
 					   
 					   // Kutuma SMS
 					   $this->sendsms($phone, $massage);
