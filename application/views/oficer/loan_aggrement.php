@@ -76,20 +76,44 @@ if ($customer->day == 1) {
 <br>
  <b>SEHEMU YA MDHAMINI</b>
  <br>
- <br>
  <?php if (!empty($mdhamini) && is_array($mdhamini)) : ?>
-    <?php $guarantor = $mdhamini[0]; // Access the first element in the array ?>
-    
-    Mimi <b><?= strtoupper($guarantor->sp_name . " " . $guarantor->sp_mname . " " . $guarantor->sp_lname) ?></b> simu <b><?= $guarantor->sp_phone_no ?></b>
-    uhusiano wangu na mkopaji <b><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) ni <b><?= $guarantor->sp_relation ?></b>
-    kwa hiari yangu mwenyewe na nikiwa na akili timamu bila kushurutishwa na mtu yeyote nakubali kumdhamini Bw/Bi <strong><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></strong> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) 
-    na ya kwamba nitakuwa tayari kwa lolote litakojitokeza endapo niliyemdhamini ataenda kinyume na moja kati ya vigezo na masharti ya mkataba huu. Nipo tayari kumlipia endapo atashindwa kurejesha.
-    <br>
-    <b>SAINI YA MDHAMINI</b> ................................   <b>DOLE GUMBA</b> .......................
-    
+    <?php if (count($mdhamini) == 1) : ?>
+        <?php 
+            // Only one sponsor, display details for the first sponsor
+            $guarantor = $mdhamini[0]; 
+        ?>
+        Mimi <b><?= strtoupper($guarantor->sp_name . " " . $guarantor->sp_mname . " " . $guarantor->sp_lname) ?></b> simu <b><?= $guarantor->sp_phone_no ?></b>
+        uhusiano wangu na mkopaji <b><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) ni <b><?= $guarantor->sp_relation ?></b>
+        kwa hiari yangu mwenyewe na nikiwa na akili timamu bila kushurutishwa na mtu yeyote nakubali kumdhamini Bw/Bi <strong><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></strong> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) 
+        na ya kwamba nitakuwa tayari kwa lolote litakojitokeza endapo niliyemdhamini ataenda kinyume na moja kati ya vigezo na masharti ya mkataba huu. Nipo tayari kumlipia endapo atashindwa kurejesha.
+        <br>
+        <b>SAINI YA MDHAMINI</b> ................................   <b>DOLE GUMBA</b> .......................
+    <?php elseif (count($mdhamini) == 2) : ?>
+        <?php 
+            // Two sponsors, display details for both sponsors
+            $guarantor1 = $mdhamini[0];
+            $guarantor2 = $mdhamini[1];
+        ?>
+        Mimi <b><?= strtoupper($guarantor1->sp_name . " " . $guarantor1->sp_mname . " " . $guarantor1->sp_lname) ?></b> simu <b><?= $guarantor1->sp_phone_no ?></b>
+        uhusiano wangu na mkopaji <b><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) ni <b><?= $guarantor1->sp_relation ?></b>
+        kwa hiari yangu mwenyewe na nikiwa na akili timamu bila kushurutishwa na mtu yeyote nakubali kumdhamini Bw/Bi <strong><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></strong> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) 
+        na ya kwamba nitakuwa tayari kwa lolote litakojitokeza endapo niliyemdhamini ataenda kinyume na moja kati ya vigezo na masharti ya mkataba huu. Nipo tayari kumlipia endapo atashindwa kurejesha.
+        <br>
+        <b>SAINI YA MDHAMINI</b> ................................   <b>DOLE GUMBA</b> .......................
+
+        <br><br> 
+        
+        Mimi <b><?= strtoupper($guarantor2->sp_name . " " . $guarantor2->sp_mname . " " . $guarantor2->sp_lname) ?></b> simu <b><?= $guarantor2->sp_phone_no ?></b>
+        uhusiano wangu na mkopaji <b><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></b> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) ni <b><?= $guarantor2->sp_relation ?></b>
+        kwa hiari yangu mwenyewe na nikiwa na akili timamu bila kushurutishwa na mtu yeyote nakubali kumdhamini Bw/Bi <strong><?= strtoupper($customer->f_name) . " " . strtoupper($customer->m_name) . " " . strtoupper($customer->l_name) ?></strong> (ambaye katika mkataba huu atajulikana kama <strong>mkopaji</strong>) 
+        na ya kwamba nitakuwa tayari kwa lolote litakojitokeza endapo niliyemdhamini ataenda kinyume na moja kati ya vigezo na masharti ya mkataba huu. Nipo tayari kumlipia endapo atashindwa kurejesha.
+        <br>
+        <b>SAINI YA MDHAMINI</b> ................................   <b>DOLE GUMBA</b> .......................
+    <?php endif; ?>
 <?php else : ?>
     <p>taarifa za mdhamini hazijajazwa kwenye mfumo.</p>
 <?php endif; ?>
+
 
 
 

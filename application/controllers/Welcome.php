@@ -304,7 +304,7 @@ class Welcome extends CI_Controller {
 		   $this->load->model('queries');
 		   
 		   
-		   $comp_id = 165;
+		   $comp_id = 164;
 		   $defaulters = $this->queries->get_default_loan_company($comp_id);
 		   $compdata = $this->queries->get_companyData($comp_id);
 	   
@@ -320,7 +320,7 @@ class Welcome extends CI_Controller {
 				   $phone = $defaulter->phone_no;
 				   
 				   // Message for contract breach (urgent payment request)
-				   $massage = "Ndugu {$full_name}, unatakiwa kulipa deni lako la TZS {$amount_due} MARA MOJA!  endapo hautalipa haraka, hatua zaidi zitachukuliwa dhidi yako. Epuka madhara, lipa sasa!";
+				   $massage = "Ndugu {$full_name}, unatakiwa kulipa deni lako la TZS {$amount_due} MARA MOJA!  endapo hautalipa haraka, hatua zaidi zitachukuliwa dhidi yako. lipa sasa!";
 	   
 				   $this->sendsms($phone,$massage);
 				   
