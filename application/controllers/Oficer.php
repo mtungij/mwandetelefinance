@@ -199,111 +199,175 @@ echo $this->queries->fetch_vipmios($this->input->post('customer_id'));
 }
 
 
+
 public function create_income_detail(){
-        $this->form_validation->set_rules('comp_id','company','required');
-        $this->form_validation->set_rules('blanch_id','company','required');
-        $this->form_validation->set_rules('customer_id','company','required');
-        $this->form_validation->set_rules('inc_id','Income','required');
-        $this->form_validation->set_rules('receve_amount','Amount','required');
-        $this->form_validation->set_rules('receve_day','company','required');
-        $this->form_validation->set_rules('empl','employee','required');
-        $this->form_validation->set_rules('loan_id','Loan','required');
-        $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
-        if ($this->form_validation->run()) {
-             $data = $this->input->post();
+  $this->form_validation->set_rules('comp_id','company','required');
+  $this->form_validation->set_rules('blanch_id','company','required');
+  $this->form_validation->set_rules('customer_id','company','required');
+  $this->form_validation->set_rules('inc_id','Income','required');
+  $this->form_validation->set_rules('receve_amount','Amount','required');
+  $this->form_validation->set_rules('receve_day','company','required');
+  $this->form_validation->set_rules('empl','employee','required');
+  $this->form_validation->set_rules('loan_id','Loan','required');
+  $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+  if ($this->form_validation->run()) {
+       $data = $this->input->post();
 
-             // echo "<pre>";
-             // print_r($data);
-             //       exit();
-             $this->load->model('queries');
-             $blanch_id = $data['blanch_id'];
-             //$blanch_id = $data['blanch_id'];
-            $loan_id = $data['loan_id'];
-            $comp_id = $data['comp_id'];
-            $penart_paid = $data['receve_amount'];
-            $username = $data['empl'];
-            $customer_id = $data['customer_id'];
-            $penart_date = $data['receve_day'];
-             $receve_amount = $data['receve_amount'];
-             @$blanch_account = $this->queries->get_blanchAccountremain($blanch_id);
-             $old_balance = @$blanch_account->blanch_capital;
-             $total_new = $old_balance + $receve_amount;
-             $inc_id = $data['inc_id'];
-             $income_data = $this->queries->get_income_data($inc_id);
-             $income_name = $income_data->inc_name;
-             $alphabet = $income_name;
-             $empl = $username;
-             $penart = $this->queries->get_paidPenart($loan_id);
+       // echo "<pre>";
+       // print_r($data);
+       //       exit();
+       $this->load->model('queries');
+       $blanch_id = $data['blanch_id'];
+       //$blanch_id = $data['blanch_id'];
+      $loan_id = $data['loan_id'];
+      $comp_id = $data['comp_id'];
+      $penart_paid = $data['receve_amount'];
+      $username = $data['empl'];
+      $customer_id = $data['customer_id'];
+      $penart_date = $data['receve_day'];
+       $receve_amount = $data['receve_amount'];
+       @$blanch_account = $this->queries->get_blanchAccountremain($blanch_id);
+       $old_balance = @$blanch_account->blanch_capital;
+       $total_new = $old_balance + $receve_amount;
+       $inc_id = $data['inc_id'];
+       $income_data = $this->queries->get_income_data($inc_id);
+       $income_name = $income_data->inc_name;
+       $alphabet = $income_name;
+       $empl = $username;
+       $penart = $this->queries->get_paidPenart($loan_id);
 
-             $loan_income = $this->queries->get_loan_income($loan_id);
-             $group_id = $loan_income->group_id;
-             
-             @$non_deducted = $this->queries->check_nonDeducted_balance($comp_id,$blanch_id);
-              $deducted_blanch = @$non_deducted->blanch_id;
-              $deducted_balance = @$non_deducted->non_balance;
-              $another_deducted = $deducted_balance + $receve_amount;
+       $loan_income = $this->queries->get_loan_income($loan_id);
+       $group_id = $loan_income->group_id;
+       
+       @$non_deducted = $this->queries->check_nonDeducted_balance($comp_id,$blanch_id);
+        $deducted_blanch = @$non_deducted->blanch_id;
+        $deducted_balance = @$non_deducted->non_balance;
+        $another_deducted = $deducted_balance + $receve_amount;
 
-        $company = $this->queries->get_comp_data($comp_id);
-        $comp_name = $company->comp_name;
-        $comp_phone = $company->comp_phone;
+  $company = $this->queries->get_comp_data($comp_id);
+  $comp_name = $company->comp_name;
+  $comp_phone = $company->comp_phone;
+  
+  $data_sms = $this->queries->get_sms_penart($customer_id);
+  $data_notifications = $this->queries->get_receive_details_by_customer($customer_id);
+  $branch_income = $this->queries->get_total_receive_amount_by_blanch($blanch_id);
+  $phone = $data_sms->phone_no;
+  $first_name = $data_sms->f_name;
+  $midle_name = $data_sms->m_name;
+  $last_name = $data_sms->l_name;
+
+//         echo "<pre>";
+// print_r(  $data_notifications);
+//      exit();
+
+
+  if (!empty($data_notifications)) {
+    $data_notification = $data_notifications[0]; // chukua object ya kwanza
+} else {
+    $data_notification = null;
+}
+
+// Sasa unaweza tumia safely
+if ($data_notification) {
+    $empl_name = $data_notification->empl_name;
+    $blanch_name = $data_notification->blanch_name;
+    $first_name = $data_notification->f_name;
+    $middle_name = $data_notification->m_name;
+    $last_name = $data_notification->l_name;
+    $phone_number_single = $data_notification->phone_no;
+    
+}
+
+$time = date('d/m/Y h:i A');
+
+//  echo "<pre>";
+// print_r( $branch_income);
+//      exit();
+
+  $massage = 'Ndugu ' . $first_name . ' ' . $last_name . ', ' .
+'Umelipa Faini ya Tsh. ' . number_format($penart_paid) . '. ' .
+'Leta marejesho kwa wakati ili kuepuka adhabu.';
+//  echo "<pre>";
+// print_r($data_notifications->receve_amount);
+//      exit();
+
+$jumla_faini = $penart_paid + $branch_income;
+
+// echo "<pre>";
+//   print_r(   $jumla_faini);
+//        exit();
+
+// $massage = "Habari, malipo ya faini yamefanyika tawi la {$data_notification->blanch_name}. 
+// Mteja: {$first_name} {$middle_name} {$last_name} ({$phone_number_single}). 
+// Afisa: {$data_notification->empl_name}. 
+// Kiasi: TZS " . number_format($penart_paid, 0) . ". 
+// Jumla ya faini: TZS " . number_format($jumla_faini, 0) . ".";
+
+$massage = "Habari, malipo ya faini yamefanyika {$data_notification->blanch_name}. 
+Mteja: {$first_name} {$middle_name} {$last_name} ({$phone_number_single}). 
+Afisa: {$data_notification->empl_name}. 
+Kiasi: " . number_format($penart_paid, 0) . " TZS. 
+Muda: {$time}. 
+Jumla leo tawi: " . number_format($jumla_faini) . " TZS.";
+
+
+
+$phone_number = [    255762062271, 
+// 255679420326, 
+// 255717682611  
+      ];
+
+      foreach ($phone_number as  $phone) {
+        $this->sendsms($phone, $massage);
+      }
+
         
-        $data_sms = $this->queries->get_loan_reminder($customer_id);
-        $phone = $data_sms->phone_no;
-        $first_name = $data_sms->f_name;
-        $midle_name = $data_sms->m_name;
-        $last_name = $data_sms->l_name;
-        $massage = 'Ndugu ' . $first_name . ' ' . $last_name . ', ' .
-    'Umelipa Faini ya Tsh. ' . number_format($penart_paid) . '. ' .
-    'Leta marejesho kwa wakati ili kuepuka adhabu.';
-    //    echo "<pre>";
-    // print_r($massage);
-    //      exit();
+        // print_r($amount);
+        //            exit();
 
-              
-              // print_r($amount);
-              //            exit();
+        if ($deducted_blanch == TRUE) {
+         $this->update_nonDeducted_balance($comp_id,$blanch_id,$another_deducted);
+          //echo "update";
+        }else{
 
-              if ($deducted_blanch == TRUE) {
-               $this->update_nonDeducted_balance($comp_id,$blanch_id,$another_deducted);
-                //echo "update";
-              }else{
-
-             $this->insert_non_deducted_balance($comp_id,$blanch_id,$receve_amount);
-                //echo "ingiza";
-              }
-
-
-
-             //  echo "<pre>";
-             // print_r($penart);
-             //           exit();
-                 if($alphabet == 'Penart'|| $alphabet == 'PENART' || $alphabet == 'penart'|| $alphabet == 'faini' || $alphabet == 'FAINI' || $alphabet == 'Faini' || $alphabet == 'fine' || $alphabet == 'FAINI KULALA' || $alphabet == 'faini kulala' || $alphabet == 'Faini kulala' || $alphabet == 'FAINI (PENALTY)' || $alphabet == 'penalt' || $alphabet == 'PENALT' || $alphabet == 'FAINI LALA' || $alphabet == 'PENATI' || $alphabet == 'penati' || $alphabet == 'Penati' || $alphabet == 'Adhabu' || $alphabet == 'ADHABU' || $alphabet == 'adhabu' || $alphabet == 'PENALTY' || $alphabet == 'Penarty' || $alphabet == 'penarty') {
-                    if ($penart == TRUE) {
-                 $old_paid = $penart->penart_paid;
-                $update_paid = $old_paid + $penart_paid;
-                $this->update_paidPenart($loan_id,$update_paid);
-                $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
-                $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
-                $this->sendsms($phone,$massage);
-                    }elseif($penart == FALSE){
-                 $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
-                 $this->insert_penartPaid($loan_id,$inc_id,$blanch_id,$comp_id,$penart_paid,$username,$customer_id,$penart_date,$group_id);
-                 $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
-                 $this->sendsms($phone,$massage);
-                        }
-                 
-                 }else{ 
-              $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
-              $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
-              $this->sendsms($phone,$massage);
-                 }
-              // //print_r($alphabet);
-              //      exit();
-
-             return redirect('oficer/income_dashboard');
+       $this->insert_non_deducted_balance($comp_id,$blanch_id,$receve_amount);
+          //echo "ingiza";
         }
-        $this->income_dashboard();
-    }
+
+
+
+       //  echo "<pre>";
+       // print_r($penart);
+       //           exit();
+           if($alphabet == 'Penart'|| $alphabet == 'PENART' || $alphabet == 'penart'|| $alphabet == 'faini' || $alphabet == 'FAINI' || $alphabet == 'Faini' || $alphabet == 'fine' || $alphabet == 'FAINI KULALA' || $alphabet == 'faini kulala' || $alphabet == 'Faini kulala' || $alphabet == 'FAINI (PENALTY)' || $alphabet == 'penalt' || $alphabet == 'PENALT' || $alphabet == 'FAINI LALA' || $alphabet == 'PENATI' || $alphabet == 'penati' || $alphabet == 'Penati' || $alphabet == 'Adhabu' || $alphabet == 'ADHABU' || $alphabet == 'adhabu' || $alphabet == 'PENALTY' || $alphabet == 'Penarty' || $alphabet == 'penarty') {
+              if ($penart == TRUE) {
+           $old_paid = $penart->penart_paid;
+          $update_paid = $old_paid + $penart_paid;
+          $this->update_paidPenart($loan_id,$update_paid);
+          $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
+          $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
+          $this->sendsms($phone,$massage);
+              }elseif($penart == FALSE){
+           $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
+           $this->insert_penartPaid($loan_id,$inc_id,$blanch_id,$comp_id,$penart_paid,$username,$customer_id,$penart_date,$group_id);
+           $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
+           $this->sendsms($phone,$massage);
+                  }
+           
+           }else{ 
+        $this->insert_income($comp_id,$inc_id,$blanch_id,$customer_id,$username,$penart_paid,$penart_date,$loan_id,$group_id);
+        $this->session->set_flashdata('massage','Tsh. '.$penart_paid .' Paid successfully');
+        $this->sendsms($phone,$massage);
+           }
+        // //print_r($alphabet);
+        //      exit();
+
+       return redirect('oficer/income_dashboard');
+  }
+  $this->income_dashboard();
+}
+
+
 
 
     public function insert_penartPaid($loan_id,$inc_id,$blanch_id,$comp_id,$penart_paid,$username,$customer_id,$penart_date,$group_id){
@@ -5624,20 +5688,31 @@ $days_remain = $this->queries->get_loan_active_customer($customer_id);
 // }
 
 public function sendsms($phone,$massage){
-    //$phone = '0753871034';
-    //$sms = 'mapenzi yanauwa';
-    $api_key = 'zgzi5jKGB22aTlwjqdOYQNsBZm';
-    //$api_key = 'qFzd89PXu1e/DuwbwxOE5uUBn6';
-    //$curl = curl_init();
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL,"https://galadove.loan-pocket.com/api/v1/receive/action/send/sms");
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS,
-            'apiKey='.$api_key.'&phoneNumber='.$phone.'&messageContent='.$massage);
+	//public function sendsms(){f
+	//$phone = '255628323760';
+	//$massage = 'mapenzi yanauwa';
+	$api_key = '';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+	//$api_key = 'qFzd89PXu1e/DuwbwxOE5uUBn6';
+	//$curl = curl_init();
+  $url = "https://sms-api.kadolab.com/api/send-sms";
+  $token = "15|KJv4IJOWSdXIefG3rnaiGutzDYF5XibSQ4CSShytaa9bcc3a";
 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization: Bearer '. $token,
+    'Content-Type: application/json',
+  ]);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+    "phoneNumbers" => ["+$phone"],
+    "message" => $massage
+  ]));
+
 $server_output = curl_exec($ch);
 curl_close ($ch);
+
+//print_r($server_output);
 }
 
 
