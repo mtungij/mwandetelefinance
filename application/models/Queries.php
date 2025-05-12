@@ -55,6 +55,26 @@ class Queries extends CI_Model {
     return $data->result(); // changed to result() because one customer can have many receives
 }
 
+
+public function get_total_receive_amount_by_blanch($blanch_id)
+{
+    $sql = "
+        SELECT 
+            SUM(r.receve_amount) AS total_receive
+        FROM tbl_receve r
+        WHERE r.blanch_id = ?
+          AND DATE(r.receve_day) = CURDATE()
+    ";
+    $query = $this->db->query($sql, array($blanch_id));
+    $result = $query->row();
+
+    if ($result && isset($result->total_receive)) {
+        return $result->total_receive;
+    } else {
+        return 0;
+    }
+}
+
   public function insert_penalt_reason($data){
   	return $this->db->insert('tbl_penart_leason',$data);
   }
