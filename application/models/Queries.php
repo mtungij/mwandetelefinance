@@ -18,6 +18,22 @@ class Queries extends CI_Model {
 		return $this->db->where('loan_id',$loan_id)->update('tbl_loans',$penat_status);
 	}
 
+	public function get_sms_penart($customer_id)
+	{
+		$data = $this->db->query("
+			SELECT 
+				c.phone_no,
+				c.f_name,
+				c.m_name,
+				c.l_name,
+				b.blanch_name
+			FROM tbl_customer c
+			JOIN tbl_blanch b ON c.blanch_id = b.blanch_id
+			WHERE c.customer_id = '$customer_id'
+		");
+		return $data->row();
+	}
+
   public function insert_penalt_reason($data){
   	return $this->db->insert('tbl_penart_leason',$data);
   }
