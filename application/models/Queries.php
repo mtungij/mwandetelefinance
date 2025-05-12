@@ -34,6 +34,27 @@ class Queries extends CI_Model {
 		return $data->row();
 	}
 
+	public function get_receive_details_by_customer($customer_id)
+{
+    $sql = "
+        SELECT 
+            r.*, 
+            b.blanch_name, 
+            e.empl_name, 
+            c.f_name, 
+            c.m_name, 
+            c.l_name, 
+            c.phone_no
+        FROM tbl_receve r
+        JOIN tbl_blanch b ON r.blanch_id = b.blanch_id
+        JOIN tbl_employee e ON r.empl = e.empl_id
+        JOIN tbl_customer c ON r.customer_id = c.customer_id
+        WHERE r.customer_id = ?
+    ";
+    $data = $this->db->query($sql, array($customer_id));
+    return $data->result(); // changed to result() because one customer can have many receives
+}
+
   public function insert_penalt_reason($data){
   	return $this->db->insert('tbl_penart_leason',$data);
   }
