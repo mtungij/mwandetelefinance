@@ -313,7 +313,7 @@ Jumla leo tawi: " . number_format($jumla_faini) . " TZS.";
 
 
 $phone_number = [    255762062271, 
- 255629364847, 
+
 // 255717682611  
       ];
 
